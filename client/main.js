@@ -8,12 +8,15 @@ const addBtn = document.getElementById("addFortuneButton")
 const baseURL = `http://localhost:4000/api/fortune`
 const fortuneContainer = document.querySelector('#fortune-container')
 const form = document.querySelector('form')
+const userInput = document.querySelector('#addFortuneField')
+const submitBtn = document.querySelector('#addFortuneButton')
 
 const getCompliment = () => {
     axios.get("http://localhost:4000/api/compliment/")
         .then(res => {
             const data = res.data;
             alert(data);
+            createDisplay(data)
     });
 };
 
@@ -29,9 +32,28 @@ const getLuckyNumber = () => {
 
 luckyNum.addEventListener('click', getLuckyNumber)
 
+const createDisplay = (list) => {
+    let newList = list.map((x,i) => `<p id='${i}'>${x}</p> <span onclick="deleteItem(${i})">delete</span>`)
+    console.log(newList)
+    fortuneContainer.innerHTML = ""
+    fortuneContainer.innerHTML = newList.join('')
+}
 
+const addFortune = () => {
+    const userValue = userInput.value;
+    console.log(userValue);
+    axios.post("http://localhost:4000/api/fortune/", {userValue})
+    .then
+    createDisplay(res.data)
 
+}
 
+const deleteFortune = id => {
+    axios.delete("http://localhost:4000/api/fortune/")
+    .then (res => {
+        createDisplay(res.data)
+    })
+}
 
 const getFortune = () => {
     axios.get("http://localhost:4000/api/fortune/")
@@ -78,20 +100,21 @@ const getAllFortunes = () => {
     axios.get("http://localhost:4000/api/fortunes/")
         .then(res => {
             let data = res.data;
+            createDisplay(data)
             // alert(data);
             // for(let i =0; i<data.length; i++){
-            let fortuna = document.createElement('li');
-            let fortune = document.createElement('span');
-            fortune.textContent = data;
-            document.querySelector('ul').appendChild(fortuna);
-            fortuna.appendChild(fortune);
+            // let fortuna = document.createElement('li')
+            // let fortune = document.createElement('span');
+            // fortune.textContent = data;
+            // document.querySelector('ul').appendChild(fortuna);
+            // fortuna.appendChild(fortune);
             // }
                         
-            let deleteBTN = document.createElement('button');
-            deleteBTN.textContent = 'Delete Fortune';
-            deleteBTN.classList.add('delete')
-            deleteBTN.addEventListener('click', deleteFortune)
-            fortuna.appendChild(deleteBTN);
+            // let deleteBTN = document.createElement('button');
+            // deleteBTN.textContent = 'Delete Fortune';
+            // deleteBTN.classList.add('delete')
+            // deleteBTN.addEventListener('click', deleteFortune)
+            // fortuna.appendChild(deleteBTN);
         
         
     });
@@ -99,13 +122,13 @@ const getAllFortunes = () => {
 
 allForts.addEventListener('click', getAllFortunes)
 
-const deleteFortune = (id) => {
-    axios.delete(`${baseURL}/${id}`)
-    .then(res => {
-            deleteBTN.parentNode.remove('li')
-            alert('Fortune deleted!');
-    })
-}
+// const deleteFortune = (id) => {
+//     axios.delete(`${baseURL}/${id}`)
+//     .then(res => {
+//             deleteBTN.parentNode.remove('li')
+//             alert('Fortune deleted!');
+//     })
+// }
 
 
 
@@ -130,26 +153,26 @@ function submitHandler(e) {
 
 
 
-function addFortune(body){
-    preventDefault()
-    axios.post(baseURL, body)
-    .then( res =>{
-        console.log(res.data);
-    let inputField = document.querySelector('input')
-    let fortuna = document.createElement('li');
-    let fortune = document.createElement('span');
-    fortune.textContent = res.data;
-    document.querySelector('ul').appendChild(fortuna);
-    fortuna.appendChild(fortune);
-    let deleteBTN = document.createElement('button');
-    deleteBTN.textContent = 'Delete Fortune';
-    deleteBTN.classList.add('delete')
-    fortuna.appendChild(deleteBTN);
-    // inputField.value = "";
-})
-}
+// function addFortune(body){
+//     preventDefault()
+//     axios.post(baseURL, body)
+//     .then( res =>{
+//         console.log(res.data);
+//     let inputField = document.querySelector('input')
+//     let fortuna = document.createElement('li');
+//     let fortune = document.createElement('span');
+//     fortune.textContent = res.data;
+//     document.querySelector('ul').appendChild(fortuna);
+//     fortuna.appendChild(fortune);
+//     let deleteBTN = document.createElement('button');
+//     deleteBTN.textContent = 'Delete Fortune';
+//     deleteBTN.classList.add('delete')
+//     fortuna.appendChild(deleteBTN);
+//     // inputField.value = "";
+// })
+// }
     
-form.addEventListener('submit', addFortune) 
+// form.addEventListener('submit', addFortune) 
 
 
 // const moviesContainer = document.querySelector('#movies-container')
