@@ -48,6 +48,10 @@ const addFortune = () => {
 
 }
 
+submitBtn.addEventListener('click', addFortune)
+
+
+
 const deleteFortune = id => {
     axios.delete("http://localhost:4000/api/fortune/")
     .then (res => {
