@@ -41,6 +41,7 @@ module.exports = {
         
         let randomIndex = Math.floor(Math.random() * watchList.length);
         let randomMovie = watchList[randomIndex];
+        userDB.push(randomMovie)
         res.status(200).send(randomMovie);
     },
 
@@ -53,10 +54,10 @@ module.exports = {
     },
 
     deleteFortune: (req, res) => {
-        console.log(req.params.id)
+        // console.log(req.params.id)
         const {id} = req.params;
         usersDB.splice(id, 1);
-        res.status(200).send(usersDB);
+        res.status(200).send(userDB);
         // let index  = fortunes.indexOf(req.body)
         // fortunes.splice(index, 1);
         // res.status(200).send(fortunes)
@@ -65,11 +66,11 @@ module.exports = {
     addFortune: (req, res) => {
         // console.log(fortunes)
         console.log(req.body)
-        const {userInput} = req.body;
+        const {userValue} = req.body;
         // let newFortune = { 
         //     text
         // }
-        userDB.push(userInput);
+        userDB.push(userValue);
         console.log(userDB)
         res.status(200).send(userDB)
 

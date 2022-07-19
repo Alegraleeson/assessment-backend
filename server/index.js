@@ -20,7 +20,7 @@ app.get("/api/luckyNumber", getLuckyNumber);
 app.get("/api/watchList", getWatchList);
 app.delete("/api/fortune/:id", deleteFortune);
 app.post("/api/fortune", addFortune);
-app.put("/api/fortune", changeFortune);
+app.put("/api/fortune/:id", changeFortune);
 
 
 

@@ -33,7 +33,7 @@ const getLuckyNumber = () => {
 luckyNum.addEventListener('click', getLuckyNumber)
 
 const createDisplay = (list) => {
-    let newList = list.map((x,i) => `<p id='${i}'>${x}</p> <span onclick="deleteItem(${i})">delete</span>`)
+    let newList = list.map((x,i) => `<p id='${i}'>${x}</p> <button class="delete" onclick="deleteFortune(${i})">delete</button>`)
     console.log(newList)
     fortuneContainer.innerHTML = ""
     fortuneContainer.innerHTML = newList.join('')
@@ -41,7 +41,7 @@ const createDisplay = (list) => {
 
 const addFortune = () => {
     const userValue = userInput.value;
-    console.log(userValue);
+    // console.log(userValue);
     axios.post("http://localhost:4000/api/fortune/", {userValue})
     .then
     createDisplay(res.data)
@@ -53,27 +53,30 @@ submitBtn.addEventListener('click', addFortune)
 
 
 const deleteFortune = id => {
-    axios.delete("http://localhost:4000/api/fortune/")
+    axios.delete("http://localhost:4000/api/fortune/:id")
     .then (res => {
         createDisplay(res.data)
     })
 }
+
+// deleteBTN.addEventListener('click', deleteFortune)
 
 const getFortune = () => {
     axios.get("http://localhost:4000/api/fortune/")
         .then(res => {
             let data = res.data;
             alert(data);
-            let fortuna = document.createElement('li');
-            let fortune = document.createElement('span');
-            fortune.textContent = data;
-            document.querySelector('ul').appendChild(fortuna);
-            fortuna.appendChild(fortune);
-            let deleteBTN = document.createElement('button');
-            deleteBTN.textContent = 'Delete Fortune';
-            deleteBTN.classList.add('delete')
-            deleteBTN.addEventListener('click', deleteFortune)
-            fortuna.appendChild(deleteBTN);
+            // createDisplay(data)
+            // let fortuna = document.createElement('li');
+            // let fortune = document.createElement('span');
+            // fortune.textContent = data;
+            // document.querySelector('ul').appendChild(fortuna);
+            // fortuna.appendChild(fortune);
+            // let deleteBTN = document.createElement('button');
+            // deleteBTN.textContent = 'Delete Fortune';
+            // deleteBTN.classList.add('delete')
+            // deleteBTN.addEventListener('click', deleteFortune)
+            // fortuna.appendChild(deleteBTN);
         
         
     });
@@ -136,24 +139,24 @@ allForts.addEventListener('click', getAllFortunes)
 
 
 
-function submitHandler(e) {
-    e.preventDefault()
+// function submitHandler(e) {
+//     e.preventDefault()
 
-    let fort = document.querySelector('#addFortuneField')
+//     let fort = document.querySelector('#addFortuneField')
     
     
 
-    let bodyObj = {
-        fort: fort.value,
+//     let bodyObj = {
+//         fort: fort.value,
         
         
-    }
+//     }
 
-    addFortune(bodyObj)
+//     addFortune(bodyObj)
 
-    fort.value = ''
+//     fort.value = ''
     
-}
+// }
 
 
 
@@ -179,64 +182,3 @@ function submitHandler(e) {
 // form.addEventListener('submit', addFortune) 
 
 
-// const moviesContainer = document.querySelector('#movies-container')
-// const form = document.querySelector('form')
-
-// const baseURL = `http://localhost:4004/api/movies`
-
-// const moviesCallback = ({ data: movies }) => displayMovies(movies)
-// const errCallback = err => alert(err.response.data)
-
-// const getAllMovies = () => axios.get(baseURL).then(moviesCallback).catch(errCallback)
-// const createMovie = body => axios.post(baseURL, body).then(moviesCallback).catch(errCallback)
-// const deleteMovie = id => axios.delete(`${baseURL}/${id}`).then(moviesCallback).catch(errCallback)
-// const updateMovie = (id, type) => axios.put(`${baseURL}/${id}`, {type}).then(moviesCallback).catch(errCallback)
-
-// function submitHandler(e) {
-//     e.preventDefault()
-
-//     let title = document.querySelector('#title')
-//     let rating = document.querySelector('input[name="ratings"]:checked')
-//     let imageURL = document.querySelector('#img')
-
-//     let bodyObj = {
-//         title: title.value,
-//         rating: rating.value, 
-//         imageURL: imageURL.value
-//     }
-
-//     createMovie(bodyObj)
-
-//     title.value = ''
-//     rating.checked = false
-//     imageURL.value = ''
-// }
-
-// function createMovieCard(movie) {
-//     const movieCard = document.createElement('div')
-//     movieCard.classList.add('movie-card')
-
-//     movieCard.innerHTML = `<img alt='movie cover' src=${movie.imageURL} class="movie-cover"/>
-//     <p class="movie-title">${movie.title}</p>
-//     <div class="btns-container">
-//         <button onclick="updateMovie(${movie.id}, 'minus')">-</button>
-//         <p class="movie-rating">${movie.rating} stars</p>
-//         <button onclick="updateMovie(${movie.id}, 'plus')">+</button>
-//     </div>
-//     <button onclick="deleteMovie(${movie.id})">delete</button>
-//     `
-
-
-//     moviesContainer.appendChild(movieCard)
-// }
-
-// function displayMovies(arr) {
-//     moviesContainer.innerHTML = ``
-//     for (let i = 0; i < arr.length; i++) {
-//         createMovieCard(arr[i])
-//     }
-// }
-
-// form.addEventListener('submit', submitHandler)
-
-// getAllMovies()
