@@ -56,7 +56,7 @@ module.exports = {
     deleteFortune: (req, res) => {
         // console.log(req.params.id)
         const {id} = req.params;
-        usersDB.splice(id, 1);
+        userDB.splice(id, 1);
         res.status(200).send(userDB);
         // let index  = fortunes.indexOf(req.body)
         // fortunes.splice(index, 1);
